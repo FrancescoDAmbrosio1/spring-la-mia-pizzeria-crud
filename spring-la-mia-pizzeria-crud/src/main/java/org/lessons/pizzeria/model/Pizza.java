@@ -23,6 +23,17 @@ public class Pizza {
 	
 	@Column(name = " foto", nullable = false, unique = true)
 	private String url;
+	
+	@Column(name = "prezzo", nullable = false)
+	private Double price; 
+	
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 
 	public Integer getId() {
 		return id;
