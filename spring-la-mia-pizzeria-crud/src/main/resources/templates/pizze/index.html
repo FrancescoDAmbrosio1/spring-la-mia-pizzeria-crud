@@ -12,24 +12,51 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-<title>Pizze</title>
+<title>Menu </title>
 </head>
 <body>
 <header>
-	<nav class="navbar" style="background-color: red;">
-	  <div class="container">
-	    <a class="navbar-brand" href="#">
-	      <img src="images/icona.png" alt="Icona Pizza" width="55" height="44">
-		  <span style="padding: 10px; color: white; font-size: 24px;">La mia Pizzeria</span>
-	    </a>
-		
+	<nav class="navbar navbar-expand-lg" style="background-color: red;">
+	  <div class="container-fluid">
+		<img th:src="@{/images/icona.png}" alt="Logo Pizzeria"
+			 width="50" height="44" style="margin: 5px;">
+	    <a class="navbar-brand text-white" href="#">La mia Pizzeria</a>
+	    <button class="navbar-toggler" type="button" style="border-color: whitesmoke;
+				color: whitesmoke;"
+			 data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+			 aria-controls="navbarSupportedContent" aria-expanded="false" 
+			 aria-label="Toggle navigation" th:text="--">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	        <li class="nav-item">
+	          <a class="nav-link text-white" 
+			  	th:href="@{/pizze}">Menu</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link text-white" 
+			  	th:href="@{/pizze/create}">Aggiungi Pizza</a>
+	        </li>
+	      </ul>
+	    </div>
 	  </div>
 	</nav>
 </header>
 <main>
 	<div class="container">
+		<div style="margin-top: 20px; margin-bottom: 20px;">
+				<form class="d-flex" role="search">
+<!--					h:object="${pizza}" -->
+<!--					th:action="@{/pizze}"-->
+<!--					method="post">-->
+					<input class="form-control me-2 bg-white" type="text" 
+						placeholder="Cerca la tua Pizza..." aria-label="Search">
+					<button class="btn" type="submit" style="background-color: red;
+						color: whitesmoke;">Cerca</button>
+			</form>
+		</div>
 		<h1>Menù delle Pizze</h1>
-			
 					<table id="table-1" class="table table-striped"
 						th:unless="${list.isEmpty()}">
 							<thead>
@@ -44,9 +71,10 @@
 								<tr th:each="pizza : ${list}">
 									<td th:text="${pizza.name}">1</td>
 									<td th:text="${pizza.description}">1</td>
-									<td th:text="${pizza.price} + '€'">1</td>
-									<td><a class="btn btn-primary" target="_blank"
-										th:href="@{|/pizze/show/${pizza.id}|}"> <i class="bi bi-book"></i>
+									<td th:text="|€ ${#numbers.formatDecimal(pizza.price, 1, 2, 'COMMA')}|">1</td>
+									<td><a class="btn" style="background-color: red;
+										color: whitesmoke;"
+										th:href="@{|/pizze/show/${pizza.id}|}"><i class="bi bi-search"></i>
 										</a>
 									</td>
 								</tr>
@@ -59,7 +87,11 @@
 	
 </main>
 <footer>
-	
+	<div style="background-color: red; justify-content: center; 
+		color: whitesmoke; height: 50px; display: flex;
+		margin-top: 120px; align-items: center">
+		<div>Made from F.D.</div>
+	</div>
 </footer>
 	
 	

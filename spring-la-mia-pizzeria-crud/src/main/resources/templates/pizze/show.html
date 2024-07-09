@@ -11,16 +11,22 @@
 <title th:text="${pizza.name}"></title>
 </head>
 <body>
-	<div class="container">
-		<img th:src="${pizza.url}" th:alt="${pizza.name}">
-			
-			<h1 th:text="${pizza.name}"></h1>
-			
-			<h3 th:text="${pizza.description}"></h3>
-			
-			<p th:text="|prezzo: ${pizza.price}|"></p>
+	<div class="container" style="padding: 20px;">
+		<div class="card" style="width: 18rem; margin: auto;">
+		  	<img th:src="${pizza.url}" th:alt="${pizza.name}" class="card-img-top">
+		  	<div class="card-body">
+		    	<h3 class="card-title"
+					th:text="${pizza.name}"></h3>
+				<p th:text="${pizza.description}"></p>
+				<p th:text="|€ ${#numbers.formatDecimal(pizza.price, 1, 2, 'COMMA')}|" 
+					style="font-weight: 600;"></p>
+		  		<div style="text-align: center;">
+					<a th:href="@{/pizze}" class="btn" style="background-color: red;
+						color: whitesmoke;">Torna al Menu</a>
+				</div>
+		  	</div>
+ 		</div>
 	</div>
-	
 	
 	<script th:src="@{/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js}"></script>
 </body>
