@@ -72,20 +72,32 @@
 									<td th:text="${pizza.name}">1</td>
 									<td th:text="${pizza.description}">1</td>
 									<td th:text="|€ ${#numbers.formatDecimal(pizza.price, 1, 2, 'COMMA')}|">1</td>
-									<td><a class="btn" style="background-color: red;
-										color: whitesmoke;"
-										th:href="@{|/pizze/show/${pizza.id}|}"><i class="bi bi-search"></i>
-										</a>
-										<a class="btn" style="background-color: red;
-										color: whitesmoke;"
-										th:href="@{|/pizze/edit/${pizza.id}|}"><i class="bi bi-pencil"></i>
-										</a>
+									<td>
+										<div class="container d-flex gap-2">
+											<a class="btn" style="background-color: red;
+												color: whitesmoke;"
+												th:href="@{|/pizze/show/${pizza.id}|}"><i class="bi bi-search"></i>
+											</a>
+											<a class="btn" style="background-color: red;
+												color: whitesmoke;"
+												th:href="@{|/pizze/edit/${pizza.id}|}"><i class="bi bi-pencil"></i>
+											</a>
+											<form th:action="@{'/pizze/delete/{id}'(id=${pizza.id})}"
+												method="post">
+												<button class="btn" type="submit" id="submitButton"
+													style="background-color: red; color: whitesmoke;"
+													th:data-confirm-delete="|Sei sicuro di voler cancellare la pizza?|"
+													onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
+													<i class="bi bi-trash"></i>
+												</button>
+											</form>
+										</div>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 						<div th:if="${list.isEmpty()}">
-							<span> La ricerca non ha prodotto risultati </span>
+							<span> Non sono presenti pizze nel menù </span>
 						</div>
 	</div>
 	

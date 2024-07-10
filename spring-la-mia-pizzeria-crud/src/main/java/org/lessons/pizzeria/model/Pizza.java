@@ -17,7 +17,7 @@ public class Pizza {
 	private Integer id;
 	
 	@NotBlank(message = "Il nome non può essere vuoto")
-	@Column(name = "name", nullable = false, unique = true)
+	@Column(name = "name", nullable = false)
 	private String name;
 	
 	@NotBlank(message = "La lista degli ingredienti non può essere vuota")
@@ -25,7 +25,7 @@ public class Pizza {
 	private String description;
 	
 	@NotBlank(message = "Inserire il percorso della foto")
-	@Column(name = " foto", nullable = false, unique = true)
+	@Column(name = " foto", nullable = false)
 	private String url;
 	
 	@Column(name = "prezzo", nullable = false)

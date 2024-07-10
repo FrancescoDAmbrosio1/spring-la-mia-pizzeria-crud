@@ -47,7 +47,7 @@
 	<div class="container" style="padding: 20px;">
 		<form id="pizza-form"
 				th:object="${pizza}" 
-				th:action="@{/pizze/create}"
+				th:action="@{|/pizze/edit/${pizza.id}|}"
 				method="post">
 				<div class="mb-3">
 					<label for="pizzaInputName" class="form-label">Inserisci il nome della Pizza</label>
@@ -91,8 +91,9 @@
 				</div>
 				<div class="mb-3">
 					<label for="pizzaInputUrl" class="form-label">Inserisci il prezzo della Pizza</label>
-					<input type="number" class="form-control" 
-						id="pizzaInputUrl" placeholder="es. 5.50">
+					<input type="text" class="form-control" 
+						id="pizzaInputUrl" placeholder="es. 5.50"
+						th:field="*{price}" th:errorClass="is-invalid">
 									<div th:if="${#fields.hasErrors()}" class="invalid-feedback">
 										<ul>
 											<li th:each="err : ${#fields.errors()}" 

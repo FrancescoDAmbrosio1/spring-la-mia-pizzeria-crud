@@ -91,8 +91,9 @@
 				</div>
 				<div class="mb-3">
 					<label for="pizzaInputUrl" class="form-label">Inserisci il prezzo della Pizza</label>
-					<input type="number" class="form-control" 
-						id="pizzaInputUrl" placeholder="es. 5.50">
+					<input type="text" class="form-control" 
+						id="pizzaInputUrl" placeholder="es. 5.50"
+						th:field="*{price}" th:errorClass="is-invalid">
 									<div th:if="${#fields.hasErrors()}" class="invalid-feedback">
 										<ul>
 											<li th:each="err : ${#fields.errors()}" 
@@ -104,7 +105,7 @@
 						<div style="display: flex; justify-content:space-evenly;">
 							<div>
 								<button type="submit" class="btn mb-3" style="background-color: red; 
-									color: whitesmoke;">Aggiorna Pizza</button>
+									color: whitesmoke;">Aggiungi Pizza</button>
 							</div>
 							<div>
 								<a th:href="@{/pizze}" class="btn" style="background-color: red;

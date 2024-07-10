@@ -58,10 +58,10 @@ public class PizzaController {
 	public String store(@Valid @ModelAttribute("pizza") Pizza pizza, 
 			BindingResult bindingResult, Model model) {
 		
-		if(pizza.getPrice() <= 0) {
-			bindingResult.addError(new ObjectError("Price Error", "Il prezzo della pizza è obbligatorio e maggiore di 0"));
-		}
-		
+//		if(pizza.getPrice() <= 0) {
+//			bindingResult.addError(new ObjectError("Price Error", "Il prezzo della pizza è obbligatorio e maggiore di 0"));
+//		}
+//		
 		if(bindingResult.hasErrors()) {
 			return "pizze/create";
 		}
@@ -104,4 +104,11 @@ public class PizzaController {
 		return "redirect:/pizze";
 	}
 	
+	@PostMapping("/delete/{id}")
+	public String delete(@PathVariable("id") Integer id) {
+		
+		repository.deleteById(id);
+		
+		return "redirect:/pizze";
+	}
 }
