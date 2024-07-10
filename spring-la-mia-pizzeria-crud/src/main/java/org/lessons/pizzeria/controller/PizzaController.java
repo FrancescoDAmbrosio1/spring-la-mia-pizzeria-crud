@@ -58,13 +58,17 @@ public class PizzaController {
 	public String store(@Valid @ModelAttribute("pizza") Pizza pizza, 
 			BindingResult bindingResult, Model model) {
 		
-//		if(pizza.getPrice() <= 0) {
-//			bindingResult.addError(new ObjectError("Price Error", "Il prezzo della pizza è obbligatorio e maggiore di 0"));
-//		}
-//		
+		if(pizza.getPrice() <= 0) {
+			
+			bindingResult.addError(new ObjectError("pizza.price", "Il prezzo della pizza è obbligatorio e maggiore di 0"));
+		
+		}
+		
 		if(bindingResult.hasErrors()) {
+			
 			return "pizze/create";
 		}
+		
 		repository.save(pizza);
 		
 		return "redirect:/pizze";
@@ -72,14 +76,19 @@ public class PizzaController {
 	
 	@GetMapping("/search")
 	public String search(@Param("input") String input, Model model) {
-		
+
 		List<Pizza> list = new ArrayList<Pizza>();
-        	
-        list = repository.search(input);
-            
-        model.addAttribute("list", list);
+		
+		if(!input.isEmpty()) {
+			
+			list = repository.search(input);
+			
+		} 
+			
+		model.addAttribute("list", list);	
 		
 		return "/pizze/search";
+		
 	}
 	
 	@GetMapping("/edit/{id}")

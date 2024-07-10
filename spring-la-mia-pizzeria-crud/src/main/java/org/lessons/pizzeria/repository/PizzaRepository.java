@@ -8,9 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface PizzaRepository extends JpaRepository<Pizza, Integer> {
 //	Query custom
-	@Query(value = "SELECT * FROM pizza p "
-			+ "WHERE p.name LIKE %:input%",
-            nativeQuery = true)
+	@Query("SELECT p FROM Pizza p WHERE p.name LIKE '%'||:input||'%' OR"
+			+ " p.description LIKE '%'||:input||'%'")
     public List<Pizza> search( String input);
 
+	public List<Pizza> findByNameContainingIgnoreCase(String name);
+	
+	public List<Pizza> findByDescriptionContainingIgnoreCase(String name);
 }
