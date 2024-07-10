@@ -6,9 +6,11 @@ import java.util.List;
 import org.lessons.pizzeria.model.Pizza;
 import org.lessons.pizzeria.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,15 +28,15 @@ public class PizzaController {
 	
 	@GetMapping
 	public String index(Model model) {
-		
-		List<Pizza> listaPizze = new ArrayList<Pizza>();
-		
-		listaPizze = repository.findAll();
-		
-		model.addAttribute("list", listaPizze);
-		
-		return "/pizze/index";
-	}
+	        	
+	        	List<Pizza> listaPizze = new ArrayList<Pizza>();
+	    		
+	    		listaPizze = repository.findAll();
+	    		
+	    		model.addAttribute("list", listaPizze);
+	    		
+	        return "/pizze/index";
+	    }
 	
 	@GetMapping("/show/{id}")
 	public String show(@PathVariable("id") Integer pizzaId, Model model) {
@@ -53,26 +55,53 @@ public class PizzaController {
 	}
 	
 	@PostMapping("create")
-	public String store(@Valid @ModelAttribute("pizza") Pizza pizzaInput, 
+	public String store(@Valid @ModelAttribute("pizza") Pizza pizza, 
 			BindingResult bindingResult, Model model) {
+		
+		if(pizza.getPrice() <= 0) {
+			bindingResult.addError(new ObjectError("Price Error", "Il prezzo della pizza è obbligatorio e maggiore di 0"));
+		}
 		
 		if(bindingResult.hasErrors()) {
 			return "pizze/create";
 		}
-		repository.save(pizzaInput);
+		repository.save(pizza);
 		
 		return "redirect:/pizze";
 	}
 	
-//	  @PostMapping("/search")
-//	    public String search(Pizza pizza, Model model, String input) {
-//	        if (input != null) {
-//	            List<Pizza> list = repository.findByKeyword(input);
-//	            model.addAttribute("list", list);
-//	        } else {
-//	            List<Pizza> list = repository.findAll();
-//	            model.addAttribute("list", list);
-//	        }
-//	        return "redirect;/pizze";
-//	    }
+	@GetMapping("/search")
+	public String search(@Param("input") String input, Model model) {
+		
+		List<Pizza> list = new ArrayList<Pizza>();
+        	
+        list = repository.search(input);
+            
+        model.addAttribute("list", list);
+		
+		return "/pizze/search";
+	}
+	
+	@GetMapping("/edit/{id}")
+	public String edit(@PathVariable("id") Integer id, Model model) {
+		
+		model.addAttribute("pizza", repository.getReferenceById(id));
+		
+		return "/pizze/edit";
+	}
+	
+	@PostMapping("/edit/{id}")
+	public String update(@Valid @ModelAttribute("pizza") Pizza pizza,
+			BindingResult bindingResult, Model model) {
+		
+		if(bindingResult.hasErrors()) {
+			
+			return "/pizze/edit";
+		}
+		
+		repository.save(pizza);
+		
+		return "redirect:/pizze";
+	}
+	
 }

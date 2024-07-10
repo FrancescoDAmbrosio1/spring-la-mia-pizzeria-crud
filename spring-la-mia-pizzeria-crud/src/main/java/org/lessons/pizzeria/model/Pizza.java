@@ -29,13 +29,13 @@ public class Pizza {
 	private String url;
 	
 	@Column(name = "prezzo", nullable = false)
-	private Double price; 
+	private double price; 
 	
-	public Double getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
